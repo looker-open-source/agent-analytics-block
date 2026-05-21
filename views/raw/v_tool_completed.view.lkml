@@ -1,4 +1,4 @@
-view: agent_events {
+view: v_tool_completed {
 
   dimension_group: timestamp {
     type: time
@@ -58,6 +58,26 @@ view: agent_events {
   dimension: is_truncated {
     type: yesno
     sql: ${TABLE}.is_truncated ;;
+  }
+
+  dimension: tool_name {
+    type: string
+    sql: ${TABLE}.tool_name ;;
+  }
+
+  dimension: tool_result {
+    type: string
+    sql: ${TABLE}.tool_result ;;
+  }
+
+  dimension: tool_origin {
+    type: string
+    sql: ${TABLE}.tool_origin ;;
+  }
+
+  dimension: total_ms {
+    type: number
+    sql: ${TABLE}.total_ms ;;
   }
 
 }

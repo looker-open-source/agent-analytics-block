@@ -1,12 +1,12 @@
 view: session_facts {
   derived_table: {
-    sql: 
-      SELECT 
+    sql:
+      SELECT
         session_id,
         MIN(timestamp) as session_start,
         MAX(timestamp) as session_end,
         TIMESTAMP_DIFF(MAX(timestamp), MIN(timestamp), MILLISECOND) as session_duration_ms
-      FROM `@{DATASET_NAME}.agent_events_v2`
+      FROM `@{DATASET_NAME}.agent_events`
       GROUP BY 1
     ;;
   }
@@ -54,7 +54,7 @@ view: session_facts {
     sql: ${session_duration_ms} ;;
     description: "99th percentile session duration in milliseconds."
   }
-  
+
   measure: average_session_duration {
     type: average
     sql: ${session_duration_ms} ;;

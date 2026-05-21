@@ -1,4 +1,4 @@
-view: agent_events {
+view: v_llm_response {
 
   dimension_group: timestamp {
     type: time
@@ -58,6 +58,46 @@ view: agent_events {
   dimension: is_truncated {
     type: yesno
     sql: ${TABLE}.is_truncated ;;
+  }
+
+  dimension: usage_prompt_tokens {
+    type: number
+    sql: ${TABLE}.usage_prompt_tokens ;;
+  }
+
+  dimension: usage_completion_tokens {
+    type: number
+    sql: ${TABLE}.usage_completion_tokens ;;
+  }
+
+  dimension: usage_total_tokens {
+    type: number
+    sql: ${TABLE}.usage_total_tokens ;;
+  }
+
+  dimension: usage_cached_tokens {
+    type: number
+    sql: ${TABLE}.usage_cached_tokens ;;
+  }
+
+  dimension: context_cache_hit_rate {
+    type: number
+    sql: ${TABLE}.context_cache_hit_rate ;;
+  }
+
+  dimension: total_ms {
+    type: number
+    sql: ${TABLE}.total_ms ;;
+  }
+
+  dimension: ttft_ms {
+    type: number
+    sql: ${TABLE}.ttft_ms ;;
+  }
+
+  dimension: model_version {
+    type: string
+    sql: ${TABLE}.model_version ;;
   }
 
 }
