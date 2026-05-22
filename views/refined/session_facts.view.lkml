@@ -6,7 +6,7 @@ view: session_facts {
         MIN(timestamp) as session_start,
         MAX(timestamp) as session_end,
         TIMESTAMP_DIFF(MAX(timestamp), MIN(timestamp), MILLISECOND) as session_duration_ms
-      FROM `@{DATASET_NAME}.agent_events`
+      FROM `@{PROJECT_ID}.@{DATASET_NAME}.agent_events`
       GROUP BY 1
     ;;
   }
