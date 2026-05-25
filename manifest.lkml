@@ -6,13 +6,11 @@ constant: CONNECTION_NAME {
 }
 
 constant: PROJECT_ID {
-  # value: "test-project-0728-467323"
-  value: "looker-marketplace-development"
+  value: ""
   export: override_optional
 }
 
 constant: DATASET_NAME {
-  # value: "bqaa_looker_demo"
-  value: "agent_analytic"
+  value: ""
   export: override_optional
 }
