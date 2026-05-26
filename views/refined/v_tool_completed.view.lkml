@@ -31,6 +31,8 @@ view: +v_tool_completed {
     description: "The total execution time of the tool in milliseconds."
   }
 
+  # --- BASE MEASURES ---
+
   measure: total_tool_usage {
     group_label: "Usage & Volume"
     type: count
@@ -59,6 +61,30 @@ view: +v_tool_completed {
     percentile: 99
     sql: ${total_ms} ;;
     description: "99th percentile latency for tool completion in milliseconds."
+  }
+
+  # --- POP MEASURES: TOOL USAGE ---
+
+  measure: pop_tool_usage_current {
+    group_label: "PoP: Tool Usage"
+    type: count
+    filters: [agent_events.is_current_period: "yes"]
+    description: "Total tool executions in the currently selected PoP date range."
+  }
+
+  measure: pop_tool_usage_previous {
+    group_label: "PoP: Tool Usage"
+    type: count
+    filters: [agent_events.is_previous_period: "yes"]
+    description: "Total tool executions in the previous period of the exact same length."
+  }
+
+  measure: pop_tool_usage_change {
+    group_label: "PoP: Tool Usage"
+    type: number
+    value_format_name: percent_2
+    sql: SAFE_DIVIDE(${pop_tool_usage_current} - ${pop_tool_usage_previous}, ${pop_tool_usage_previous}) ;;
+    description: "The percentage change in tool executions between the current and previous period."
   }
 
 }

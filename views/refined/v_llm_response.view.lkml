@@ -51,6 +51,8 @@ view: +v_llm_response {
     description: "The specific version of the LLM model used for this request (e.g., 'gemini-2.5-flash')."
   }
 
+  # --- BASE MEASURES ---
+
   measure: total_tokens_consumed {
     group_label: "Usage & Volume"
     type: sum
@@ -100,6 +102,108 @@ view: +v_llm_response {
     percentile: 99
     sql: ${total_ms} ;;
     description: "99th percentile latency for LLM responses in milliseconds."
+  }
+
+  # --- POP MEASURES: TOTAL TOKENS ---
+
+  measure: pop_total_tokens_current {
+    group_label: "PoP: Total Tokens Consumed"
+    type: sum
+    sql: ${usage_total_tokens} ;;
+    filters: [agent_events.is_current_period: "yes"]
+    description: "Total tokens consumed in the currently selected PoP date range."
+  }
+
+  measure: pop_total_tokens_previous {
+    group_label: "PoP: Total Tokens Consumed"
+    type: sum
+    sql: ${usage_total_tokens} ;;
+    filters: [agent_events.is_previous_period: "yes"]
+    description: "Total tokens consumed in the previous period of the exact same length."
+  }
+
+  measure: pop_total_tokens_change {
+    group_label: "PoP: Total Tokens Consumed"
+    type: number
+    value_format_name: percent_2
+    sql: SAFE_DIVIDE(${pop_total_tokens_current} - ${pop_total_tokens_previous}, ${pop_total_tokens_previous}) ;;
+    description: "The percentage change in total tokens between the current and previous period."
+  }
+
+  # --- POP MEASURES: PROMPT TOKENS ---
+
+  measure: pop_prompt_tokens_current {
+    group_label: "PoP: Prompt Tokens"
+    type: sum
+    sql: ${usage_prompt_tokens} ;;
+    filters: [agent_events.is_current_period: "yes"]
+    description: "Total prompt tokens consumed in the currently selected PoP date range."
+  }
+
+  measure: pop_prompt_tokens_previous {
+    group_label: "PoP: Prompt Tokens"
+    type: sum
+    sql: ${usage_prompt_tokens} ;;
+    filters: [agent_events.is_previous_period: "yes"]
+    description: "Total prompt tokens consumed in the previous period."
+  }
+
+  measure: pop_prompt_tokens_change {
+    group_label: "PoP: Prompt Tokens"
+    type: number
+    value_format_name: percent_2
+    sql: SAFE_DIVIDE(${pop_prompt_tokens_current} - ${pop_prompt_tokens_previous}, ${pop_prompt_tokens_previous}) ;;
+    description: "The percentage change in prompt tokens between the current and previous period."
+  }
+
+  # --- POP MEASURES: COMPLETION TOKENS ---
+
+  measure: pop_completion_tokens_current {
+    group_label: "PoP: Completion Tokens"
+    type: sum
+    sql: ${usage_completion_tokens} ;;
+    filters: [agent_events.is_current_period: "yes"]
+    description: "Total completion tokens generated in the currently selected PoP date range."
+  }
+
+  measure: pop_completion_tokens_previous {
+    group_label: "PoP: Completion Tokens"
+    type: sum
+    sql: ${usage_completion_tokens} ;;
+    filters: [agent_events.is_previous_period: "yes"]
+    description: "Total completion tokens generated in the previous period."
+  }
+
+  measure: pop_completion_tokens_change {
+    group_label: "PoP: Completion Tokens"
+    type: number
+    value_format_name: percent_2
+    sql: SAFE_DIVIDE(${pop_completion_tokens_current} - ${pop_completion_tokens_previous}, ${pop_completion_tokens_previous}) ;;
+    description: "The percentage change in completion tokens between the current and previous period."
+  }
+
+  # --- POP MEASURES: LLM CALLS ---
+
+  measure: pop_llm_calls_current {
+    group_label: "PoP: LLM Calls"
+    type: count
+    filters: [agent_events.is_current_period: "yes"]
+    description: "Total LLM calls in the currently selected PoP date range."
+  }
+
+  measure: pop_llm_calls_previous {
+    group_label: "PoP: LLM Calls"
+    type: count
+    filters: [agent_events.is_previous_period: "yes"]
+    description: "Total LLM calls in the previous period."
+  }
+
+  measure: pop_llm_calls_change {
+    group_label: "PoP: LLM Calls"
+    type: number
+    value_format_name: percent_2
+    sql: SAFE_DIVIDE(${pop_llm_calls_current} - ${pop_llm_calls_previous}, ${pop_llm_calls_previous}) ;;
+    description: "The percentage change in LLM calls between the current and previous period."
   }
 
 }

@@ -10,6 +10,28 @@ view: +agent_events {
     sql: CONCAT(${trace_id}, '|', ${span_id}) ;;
   }
 
+  # --- PERIOD OVER PERIOD (POP) ENGINE ---
+
+  filter: pop_date_filter {
+    type: date
+    description: "Global date filter for driving Period-over-Period (PoP) scorecard comparisons."
+  }
+
+  dimension: is_current_period {
+    hidden: yes
+    type: yesno
+    sql: {% condition pop_date_filter %} ${timestamp_raw} {% endcondition %} ;;
+  }
+
+  dimension: is_previous_period {
+    hidden: yes
+    type: yesno
+    sql: ${timestamp_raw} >= TIMESTAMP_SUB(CAST({% date_start pop_date_filter %} AS TIMESTAMP), INTERVAL DATE_DIFF(CAST({% date_end pop_date_filter %} AS DATE), CAST({% date_start pop_date_filter %} AS DATE), DAY) DAY)
+         AND ${timestamp_raw} < CAST({% date_start pop_date_filter %} AS TIMESTAMP) ;;
+  }
+
+  # --- DIMENSIONS ---
+
   dimension: session_id { 
     group_label: "IDs & Tracing"
     description: "A unique identifier for the entire conversation session. Used to group all events belonging to a single user interaction."
@@ -96,6 +118,110 @@ view: +agent_events {
     type: count_distinct
     sql: ${user_id} ;;
     description: "Total number of unique users interacting with the agents."
+  }
+
+  # --- POP MEASURES: INVOCATIONS ---
+
+  measure: pop_total_invocations_current {
+    group_label: "PoP: Total Invocations"
+    type: count_distinct
+    sql: ${invocation_id} ;;
+    filters: [is_current_period: "yes"]
+    description: "Total invocations in the currently selected PoP date range."
+  }
+
+  measure: pop_total_invocations_previous {
+    group_label: "PoP: Total Invocations"
+    type: count_distinct
+    sql: ${invocation_id} ;;
+    filters: [is_previous_period: "yes"]
+    description: "Total invocations in the previous period of the exact same length."
+  }
+
+  measure: pop_total_invocations_change {
+    group_label: "PoP: Total Invocations"
+    type: number
+    value_format_name: percent_2
+    sql: SAFE_DIVIDE(${pop_total_invocations_current} - ${pop_total_invocations_previous}, ${pop_total_invocations_previous}) ;;
+    description: "The percentage change in invocations between the current and previous period."
+  }
+
+  # --- POP MEASURES: TRACES ---
+
+  measure: pop_total_traces_current {
+    group_label: "PoP: Total Traces"
+    type: count_distinct
+    sql: ${trace_id} ;;
+    filters: [is_current_period: "yes"]
+    description: "Total traces in the currently selected PoP date range."
+  }
+
+  measure: pop_total_traces_previous {
+    group_label: "PoP: Total Traces"
+    type: count_distinct
+    sql: ${trace_id} ;;
+    filters: [is_previous_period: "yes"]
+    description: "Total traces in the previous period of the exact same length."
+  }
+
+  measure: pop_total_traces_change {
+    group_label: "PoP: Total Traces"
+    type: number
+    value_format_name: percent_2
+    sql: SAFE_DIVIDE(${pop_total_traces_current} - ${pop_total_traces_previous}, ${pop_total_traces_previous}) ;;
+    description: "The percentage change in traces between the current and previous period."
+  }
+
+  # --- POP MEASURES: SESSIONS ---
+
+  measure: pop_total_sessions_current {
+    group_label: "PoP: Total Sessions"
+    type: count_distinct
+    sql: ${session_id} ;;
+    filters: [is_current_period: "yes"]
+    description: "Total sessions in the currently selected PoP date range."
+  }
+
+  measure: pop_total_sessions_previous {
+    group_label: "PoP: Total Sessions"
+    type: count_distinct
+    sql: ${session_id} ;;
+    filters: [is_previous_period: "yes"]
+    description: "Total sessions in the previous period of the exact same length."
+  }
+
+  measure: pop_total_sessions_change {
+    group_label: "PoP: Total Sessions"
+    type: number
+    value_format_name: percent_2
+    sql: SAFE_DIVIDE(${pop_total_sessions_current} - ${pop_total_sessions_previous}, ${pop_total_sessions_previous}) ;;
+    description: "The percentage change in sessions between the current and previous period."
+  }
+
+  # --- POP MEASURES: USERS ---
+
+  measure: pop_total_users_current {
+    group_label: "PoP: Total Users"
+    type: count_distinct
+    sql: ${user_id} ;;
+    filters: [is_current_period: "yes"]
+    description: "Total unique users in the currently selected PoP date range."
+  }
+
+  measure: pop_total_users_previous {
+    group_label: "PoP: Total Users"
+    type: count_distinct
+    sql: ${user_id} ;;
+    filters: [is_previous_period: "yes"]
+    description: "Total unique users in the previous period of the exact same length."
+  }
+
+  measure: pop_total_users_change {
+    group_label: "PoP: Total Users"
+    type: number
+    value_format_name: percent_2
+    sql: SAFE_DIVIDE(${pop_total_users_current} - ${pop_total_users_previous}, ${pop_total_users_previous}) ;;
+    description: "The percentage change in users between the current and previous period."
   }
 
 }
