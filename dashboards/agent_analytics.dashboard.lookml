@@ -59,10 +59,10 @@
     defaults_version: 1
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 0
     col: 9
     width: 15
@@ -113,10 +113,10 @@
     hidden_pivots: {}
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 4
     col: 9
     width: 15
@@ -168,10 +168,10 @@
     hidden_pivots: {}
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 8
     col: 9
     width: 15
@@ -223,10 +223,10 @@
     hidden_pivots: {}
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 12
     col: 9
     width: 15
@@ -285,10 +285,10 @@
     hidden_pivots: {}
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 0
     col: 0
     width: 9
@@ -347,10 +347,10 @@
     hidden_pivots: {}
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 4
     col: 0
     width: 9
@@ -409,10 +409,10 @@
     hidden_pivots: {}
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 8
     col: 0
     width: 9
@@ -471,10 +471,10 @@
     hidden_pivots: {}
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 12
     col: 0
     width: 9
@@ -528,10 +528,10 @@
     defaults_version: 1
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 0
     col: 0
     width: 12
@@ -590,10 +590,10 @@
     hidden_pivots: {}
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 6
     col: 0
     width: 12
@@ -653,10 +653,10 @@
     hidden_pivots: {}
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 6
     col: 12
     width: 12
@@ -717,10 +717,10 @@
     hidden_pivots: {}
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 0
     col: 12
     width: 12
@@ -796,10 +796,10 @@
     label_type: labPer
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 12
     col: 0
     width: 24
@@ -862,10 +862,10 @@
     defaults_version: 1
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 0
     col: 0
     width: 24
@@ -967,10 +967,10 @@
     hidden_pivots: {}
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 8
     col: 0
     width: 24
@@ -1032,10 +1032,10 @@
     defaults_version: 1
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 0
     col: 0
     width: 12
@@ -1100,10 +1100,10 @@
     defaults_version: 1
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 0
     col: 12
     width: 12
@@ -1169,10 +1169,10 @@
     hidden_pivots: {}
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 7
     col: 12
     width: 12
@@ -1239,10 +1239,10 @@
     hidden_pivots: {}
     listen:
       Date: agent_events.timestamp_date
-      Agent: v_llm_response.agent
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 7
     col: 0
     width: 12
@@ -1281,7 +1281,7 @@
     label_density: 25
     x_axis_scale: auto
     y_axis_combined: true
-    show_null_points: true
+    show_null_points: false
     interpolation: linear
     x_axis_zoom: true
     y_axis_zoom: true
@@ -1295,6 +1295,7 @@
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 7
     col: 0
     width: 12
@@ -1307,7 +1308,6 @@
     type: looker_line
     fields: [agent_events.timestamp_date, v_tool_completed.p50_tool_latency, v_tool_completed.p90_tool_latency,
       v_tool_completed.p99_tool_latency]
-    fill_fields: [agent_events.timestamp_date]
     sorts: [agent_events.timestamp_date desc]
     limit: 500
     column_limit: 50
@@ -1333,7 +1333,7 @@
     label_density: 25
     x_axis_scale: auto
     y_axis_combined: true
-    show_null_points: true
+    show_null_points: false
     interpolation: linear
     x_axis_zoom: true
     y_axis_zoom: true
@@ -1349,6 +1349,7 @@
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 7
     col: 12
     width: 12
@@ -1404,6 +1405,7 @@
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 0
     col: 0
     width: 24
@@ -1501,6 +1503,7 @@
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
+      Agent: v_llm_response.agent
     row: 14
     col: 0
     width: 24
