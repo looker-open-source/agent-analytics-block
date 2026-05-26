@@ -6,11 +6,11 @@ constant: CONNECTION_NAME {
 }
 
 constant: PROJECT_ID {
-  value: ""
+  value: "looker-marketplace-development"
   export: override_optional
 }
 
 constant: DATASET_NAME {
-  value: ""
+  value: "agent_analytic"
   export: override_optional
 }
