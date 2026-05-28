@@ -58,11 +58,11 @@
     interpolation: linear
     defaults_version: 1
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 0
     col: 9
     width: 15
@@ -100,7 +100,7 @@
     label_density: 25
     x_axis_scale: auto
     y_axis_combined: true
-    show_null_points: true
+    show_null_points: false
     interpolation: linear
     show_totals_labels: false
     show_silhouette: false
@@ -112,11 +112,11 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 4
     col: 9
     width: 15
@@ -154,7 +154,7 @@
     label_density: 25
     x_axis_scale: auto
     y_axis_combined: true
-    show_null_points: true
+    show_null_points: false
     interpolation: linear
     show_totals_labels: false
     show_silhouette: false
@@ -167,11 +167,11 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 8
     col: 9
     width: 15
@@ -209,7 +209,7 @@
     label_density: 25
     x_axis_scale: auto
     y_axis_combined: true
-    show_null_points: true
+    show_null_points: false
     interpolation: linear
     show_totals_labels: false
     show_silhouette: false
@@ -222,33 +222,62 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 12
     col: 9
     width: 15
     height: 4
     tab_name: Summary
-  - title: Total users
-    name: Total users
+  - title: Total Users
+    name: Total Users
     model: agent-analytics
     explore: agent_events
     type: single_value
-    fields: [agent_events.total_users]
+    fields: [agent_events.pop_total_users_current, agent_events.pop_total_users_change]
+    filters:
+      agent_events.pop_date_filter: 7 days
     limit: 500
     column_limit: 50
     custom_color_enabled: true
     show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
+    show_comparison: true
+    comparison_type: change
     comparison_reverse_colors: false
     show_comparison_label: true
     enable_conditional_formatting: false
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
+    global_tooltip_options:
+      custom_tooltips_enabled: false
+      template: |2-
+
+        <div class="section">
+          <div class="header">Pop Total Users Current</div>
+          <div class="value">{{ agent_events.pop_total_users_current }}</div>
+        </div>
+        <div class="section">
+          <div class="header">Pop Total Users Change</div>
+          <div class="value">{{ agent_events.pop_total_users_change }}</div>
+        </div>
+      style:
+        font_size: 12
+        font_family: Roboto, 'Noto Sans', 'Noto Sans JP', 'Noto Sans CJK KR', 'Noto
+          Sans Arabic UI', 'Noto Sans Devanagari UI', 'Noto Sans Hebrew', 'Noto Sans
+          Thai UI', Helvetica, Arial, sans-serif
+        font_color: "#FFFFFF"
+        background_color: "#262D33"
+        border_radius: 4
+        border_color: transparent
+        box_shadow: none
+        align: left
+    single_value_title: Total Users
+    smart_single_value_size: false
+    comparison_label: Previous
+    hidden_pivots: {}
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_view_names: false
@@ -262,33 +291,26 @@
     x_axis_reversed: false
     y_axis_reversed: false
     plot_size_by_field: false
-    x_axis_zoom: true
-    y_axis_zoom: true
     trellis: ''
     stacking: ''
     limit_displayed_rows: false
     legend_position: center
-    point_style: circle_outline
-    series_colors:
-      v_tool_error.total_tool_errors: "#1e8e3e"
-      v_llm_response.total_completion_tokens: "#f9ab00"
+    point_style: none
     show_value_labels: false
     label_density: 25
     x_axis_scale: auto
     y_axis_combined: true
-    show_null_points: true
-    interpolation: linear
+    ordering: none
+    show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
     totals_color: "#808080"
     defaults_version: 1
-    hidden_pivots: {}
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
-      Agent: v_llm_response.agent
+      Date: agent_events.pop_date_filter
     row: 0
     col: 0
     width: 9
@@ -299,58 +321,29 @@
     model: agent-analytics
     explore: agent_events
     type: single_value
-    fields: [v_tool_error.total_tool_errors]
+    fields: [v_tool_error.pop_tool_errors_current, v_tool_error.pop_tool_errors_change]
+    filters:
+      agent_events.pop_date_filter: 7 days
     limit: 500
     column_limit: 50
     custom_color_enabled: true
     show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
+    show_comparison: true
+    comparison_type: change
+    comparison_reverse_colors: true
     show_comparison_label: true
     enable_conditional_formatting: false
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: true
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    x_axis_zoom: true
-    y_axis_zoom: true
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    point_style: circle_outline
-    series_colors:
-      v_tool_error.total_tool_errors: "#1e8e3e"
-      v_llm_response.total_completion_tokens: "#f9ab00"
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: auto
-    y_axis_combined: true
-    show_null_points: true
-    interpolation: linear
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
+    single_value_title: Total Errors
+    smart_single_value_size: false
+    comparison_label: Previous Error Count
     defaults_version: 1
-    hidden_pivots: {}
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
-      Agent: v_llm_response.agent
+      Date: agent_events.pop_date_filter
     row: 4
     col: 0
     width: 9
@@ -361,120 +354,63 @@
     model: agent-analytics
     explore: agent_events
     type: single_value
-    fields: [v_llm_response.total_prompt_tokens]
+    fields: [v_llm_response.pop_prompt_tokens_current, v_llm_response.pop_prompt_tokens_change]
+    filters:
+      agent_events.pop_date_filter: 14 days
     limit: 500
     column_limit: 50
     custom_color_enabled: true
     show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
+    show_comparison: true
+    comparison_type: change
+    comparison_reverse_colors: true
     show_comparison_label: true
     enable_conditional_formatting: false
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: true
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    x_axis_zoom: true
-    y_axis_zoom: true
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    point_style: circle_outline
-    series_colors:
-      v_tool_error.total_tool_errors: "#1e8e3e"
-      v_llm_response.total_completion_tokens: "#f9ab00"
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: auto
-    y_axis_combined: true
-    show_null_points: true
-    interpolation: linear
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
+    single_value_title: Prompt Tokens
+    smart_single_value_size: false
+    comparison_label: Previous Prompt Tokens
     defaults_version: 1
-    hidden_pivots: {}
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
-      Agent: v_llm_response.agent
+      Date: agent_events.pop_date_filter
     row: 8
     col: 0
     width: 9
     height: 4
     tab_name: Summary
-  - title: Total Completion Tokens
-    name: Total Completion Tokens
+  - title: Completion Tokens
+    name: Completion Tokens
     model: agent-analytics
     explore: agent_events
     type: single_value
-    fields: [v_llm_response.total_completion_tokens]
+    fields: [v_llm_response.pop_completion_tokens_current, v_llm_response.pop_completion_tokens_change]
+    filters:
+      agent_events.pop_date_filter: 14 days
     limit: 500
     column_limit: 50
     custom_color_enabled: true
     show_single_value_title: true
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
+    show_comparison: true
+    comparison_type: change
+    comparison_reverse_colors: true
     show_comparison_label: true
     enable_conditional_formatting: false
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: true
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    x_axis_zoom: true
-    y_axis_zoom: true
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    point_style: circle_outline
-    series_colors:
-      v_tool_error.total_tool_errors: "#1e8e3e"
-      v_llm_response.total_completion_tokens: "#f9ab00"
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: auto
-    y_axis_combined: true
-    show_null_points: true
-    interpolation: linear
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
+    single_value_title: Completion Tokens
+    smart_single_value_size: false
+    comparison_label: Previous Completion Tokens
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
-      Agent: v_llm_response.agent
+      Date: agent_events.pop_date_filter
     row: 12
     col: 0
     width: 9
@@ -527,11 +463,11 @@
     conditional_formatting_include_nulls: false
     defaults_version: 1
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 0
     col: 0
     width: 12
@@ -589,11 +525,11 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 6
     col: 0
     width: 12
@@ -652,11 +588,11 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 6
     col: 12
     width: 12
@@ -716,11 +652,11 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 0
     col: 12
     width: 12
@@ -795,11 +731,11 @@
     value_labels: legend
     label_type: labPer
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 12
     col: 0
     width: 24
@@ -861,11 +797,11 @@
     conditional_formatting_include_nulls: false
     defaults_version: 1
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 0
     col: 0
     width: 24
@@ -966,11 +902,11 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 8
     col: 0
     width: 24
@@ -1031,11 +967,11 @@
     conditional_formatting_include_nulls: false
     defaults_version: 1
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 0
     col: 0
     width: 12
@@ -1099,11 +1035,11 @@
     conditional_formatting_include_nulls: false
     defaults_version: 1
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 0
     col: 12
     width: 12
@@ -1168,11 +1104,11 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 7
     col: 12
     width: 12
@@ -1238,11 +1174,11 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 7
     col: 0
     width: 12
@@ -1291,11 +1227,11 @@
       v_llm_response.p50_llm_latency: "#1e8e3e"
     defaults_version: 1
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 7
     col: 0
     width: 12
@@ -1345,11 +1281,11 @@
       v_tool_completed.p50_tool_latency: "#1e8e3e"
     defaults_version: 1
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 7
     col: 12
     width: 12
@@ -1401,11 +1337,11 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 0
     col: 0
     width: 24
@@ -1499,11 +1435,11 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Date: agent_events.timestamp_date
       User ID: agent_events.user_id
       Trace ID: agent_events.trace_id
       Span ID: agent_events.span_id
       Agent: v_llm_response.agent
+      Date: agent_events.timestamp_date
     row: 14
     col: 0
     width: 24
