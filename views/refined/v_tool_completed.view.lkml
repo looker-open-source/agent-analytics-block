@@ -37,26 +37,47 @@ view: +v_tool_completed {
     group_label: "Usage & Volume"
     type: count
     description: "Total number of times a tool was successfully completed."
+    drill_fields: [agent_events.timestamp_time, agent_events.agent, agent_events.user_id, agent_events.trace_id, tool_name, total_ms]
+  }
+
+  measure: average_tool_latency {
+    group_label: "Performance & Reliability"
+    type: average
+    sql: ${total_ms} ;;
+    description: "Average latency for tool completion in milliseconds."
+    value_format_name: decimal_1
   }
 
   measure: p50_tool_latency {
     group_label: "Performance & Reliability"
+    label: "P50 Latency"
     type: percentile
     percentile: 50
     sql: ${total_ms} ;;
     description: "Median (P50) latency for tool completion in milliseconds."
   }
 
+  measure: p75_tool_latency {
+    group_label: "Performance & Reliability"
+    label: "P75 Latency"
+    type: percentile
+    percentile: 75
+    sql: ${total_ms} ;;
+    description: "75th percentile latency for tool completion in milliseconds."
+  }
+
   measure: p90_tool_latency {
     group_label: "Performance & Reliability"
+    label: "P90 Latency"
     type: percentile
     percentile: 90
     sql: ${total_ms} ;;
     description: "90th percentile latency for tool completion in milliseconds."
   }
-  
+
   measure: p99_tool_latency {
     group_label: "Performance & Reliability"
+    label: "P99 Latency"
     type: percentile
     percentile: 99
     sql: ${total_ms} ;;

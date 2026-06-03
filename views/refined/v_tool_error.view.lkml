@@ -37,6 +37,7 @@ view: +v_tool_error {
     group_label: "Performance & Reliability"
     type: count
     description: "Total number of tool calls that resulted in an error status."
+    drill_fields: [agent_events.timestamp_time, agent_events.agent, agent_events.user_id, agent_events.trace_id, tool_name, tool_args, total_ms]
   }
 
   # --- POP MEASURES: TOOL ERRORS ---

@@ -58,6 +58,20 @@ view: +v_llm_response {
     type: sum
     sql: ${usage_total_tokens} ;;
     description: "Total tokens consumed across all LLM responses in the selected timeframe."
+    drill_fields: [agent_events.timestamp_time, agent_events.agent, agent_events.user_id, agent_events.trace_id, model_version, total_ms]
+    
+    link: {
+      label: "Show Tokens Over Time (Area Chart)"
+      url: "@{VIZ_AREA_CHART}{{ link }}&fields=agent_events.timestamp_date,{{ _view._name }}.total_tokens_consumed&fill_fields=agent_events.timestamp_date&sorts=agent_events.timestamp_date+desc&limit=500&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Top 5 Agents (for this selection)"
+      url: "@{VIZ_BAR_CHART}{{ link }}&fields={{ _view._name }}.total_tokens_consumed,agent_events.agent&sorts={{ _view._name }}.total_tokens_consumed+desc&limit=5&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Top 5 Users (for this selection)"
+      url: "@{VIZ_BAR_CHART}{{ link }}&fields={{ _view._name }}.total_tokens_consumed,agent_events.user_id&sorts={{ _view._name }}.total_tokens_consumed+desc&limit=5&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
   }
 
   measure: total_prompt_tokens {
@@ -65,6 +79,7 @@ view: +v_llm_response {
     type: sum
     sql: ${usage_prompt_tokens} ;;
     description: "Total prompt tokens consumed across all LLM responses."
+    drill_fields: [agent_events.timestamp_time, agent_events.agent, agent_events.user_id, agent_events.trace_id, model_version, total_ms]
   }
 
   measure: total_completion_tokens {
@@ -72,12 +87,22 @@ view: +v_llm_response {
     type: sum
     sql: ${usage_completion_tokens} ;;
     description: "Total completion (candidate) tokens generated across all LLM responses."
+    drill_fields: [agent_events.timestamp_time, agent_events.agent, agent_events.user_id, agent_events.trace_id, model_version, total_ms]
   }
 
   measure: total_llm_calls {
     group_label: "Usage & Volume"
     type: count
     description: "Total number of successful LLM responses."
+    drill_fields: [agent_events.timestamp_time, agent_events.agent, agent_events.user_id, agent_events.trace_id, model_version, total_ms]
+  }
+
+  measure: average_llm_latency {
+    group_label: "Performance & Reliability"
+    type: average
+    sql: ${total_ms} ;;
+    description: "Average latency for LLM responses in milliseconds."
+    value_format_name: decimal_1
   }
 
   measure: p50_llm_latency {
@@ -86,6 +111,14 @@ view: +v_llm_response {
     percentile: 50
     sql: ${total_ms} ;;
     description: "Median (P50) latency for LLM responses in milliseconds."
+  }
+
+  measure: p75_llm_latency {
+    group_label: "Performance & Reliability"
+    type: percentile
+    percentile: 75
+    sql: ${total_ms} ;;
+    description: "75th percentile latency for LLM responses in milliseconds."
   }
 
   measure: p90_llm_latency {
