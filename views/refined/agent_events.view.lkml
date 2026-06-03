@@ -92,11 +92,19 @@ view: +agent_events {
 
   # --- BASE MEASURES ---
   
+  measure: total_events {
+    group_label: "Usage & Volume"
+    type: count
+    description: "The raw number of individual event records. Best used when split by Event Type."
+    drill_fields: [timestamp_time, agent, user_id, trace_id, event_type]
+  }
+  
   measure: total_invocations {
     group_label: "Usage & Volume"
     type: count_distinct
     sql: ${invocation_id} ;;
     description: "Total number of distinct turns or invocations within all sessions."
+    drill_fields: [timestamp_time, agent, user_id, session_id, trace_id, event_type]
   }
 
   measure: total_traces {
@@ -104,6 +112,20 @@ view: +agent_events {
     type: count_distinct
     sql: ${trace_id} ;;
     description: "Total number of unique traces representing agent execution flows."
+    drill_fields: [timestamp_time, agent, user_id, session_id, trace_id, event_type]
+    
+    link: {
+      label: "Show Traces Over Time (Area Chart)"
+      url: "@{VIZ_AREA_CHART}{{ link }}&fields=agent_events.timestamp_date,{{ _view._name }}.total_traces&fill_fields=agent_events.timestamp_date&sorts=agent_events.timestamp_date+desc&limit=500&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Top 5 Agents (for this selection)"
+      url: "@{VIZ_BAR_CHART}{{ link }}&fields={{ _view._name }}.total_traces,agent_events.agent&sorts={{ _view._name }}.total_traces+desc&limit=5&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Top 5 Users (for this selection)"
+      url: "@{VIZ_BAR_CHART}{{ link }}&fields={{ _view._name }}.total_traces,agent_events.user_id&sorts={{ _view._name }}.total_traces+desc&limit=5&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
   }
 
   measure: total_sessions {
@@ -111,6 +133,7 @@ view: +agent_events {
     type: count_distinct
     sql: ${session_id} ;;
     description: "Total number of unique interaction sessions."
+    drill_fields: [timestamp_time, agent, user_id, session_id, total_invocations]
   }
 
   measure: total_users {
@@ -118,6 +141,7 @@ view: +agent_events {
     type: count_distinct
     sql: ${user_id} ;;
     description: "Total number of unique users interacting with the agents."
+    drill_fields: [user_id, total_sessions, total_invocations]
   }
 
   # --- POP MEASURES: INVOCATIONS ---
@@ -168,7 +192,7 @@ view: +agent_events {
     group_label: "PoP: Total Traces"
     type: number
     value_format_name: percent_2
-    sql: SAFE_DIVIDE(${pop_total_traces_current} - ${pop_total_traces_previous}, ${pop_total_traces_previous}) ;;
+    sql: SAFE_DIVIDE(${pop_total_traces_current} - ${pop_total_traces_current}, ${pop_total_traces_previous}) ;;
     description: "The percentage change in traces between the current and previous period."
   }
 
