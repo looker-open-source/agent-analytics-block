@@ -95,6 +95,19 @@ view: +v_llm_response {
     type: count
     description: "Total number of successful LLM responses."
     drill_fields: [agent_events.timestamp_time, agent_events.agent, agent_events.user_id, agent_events.trace_id, model_version, total_ms]
+    
+    link: {
+      label: "The Outlier Hunter (Scatter Plot)"
+      url: "@{VIZ_SCATTER_CHART}{{ link }}&fields=agent_events.trace_id,{{ _view._name }}.total_llm_calls,{{ _view._name }}.total_tokens_consumed&sorts={{ _view._name }}.total_llm_calls+desc+0&limit=5000&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Deep Log Inspector (Raw Table)"
+      url: "@{VIZ_GRID_TABLE}{{ link }}&fields=agent_events.timestamp_time,agent_events.trace_id,agent_events.user_id,agent_events.agent,{{ _view._name }}.model_version,{{ _view._name }}.usage_total_tokens&sorts=agent_events.timestamp_time+desc&limit=500&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "User Footprint Over Time (Area Chart)"
+      url: "@{VIZ_STACKED_AREA}{{ link }}&fields=agent_events.timestamp_date,agent_events.user_id,{{ _view._name }}.total_llm_calls&pivots=agent_events.user_id&sorts=agent_events.user_id,agent_events.timestamp_date+desc&limit=500&column_limit=10&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
   }
 
   measure: average_llm_latency {
@@ -103,6 +116,16 @@ view: +v_llm_response {
     sql: ${total_ms} ;;
     description: "Average latency for LLM responses in milliseconds."
     value_format_name: decimal_1
+    drill_fields: []
+    
+    link: {
+      label: "Latency vs Tokens (Scatter Plot)"
+      url: "@{VIZ_SCATTER_CHART}{{ link }}&fields=agent_events.trace_id,{{ _view._name }}.total_ms,{{ _view._name }}.usage_total_tokens&sorts={{ _view._name }}.total_ms+desc&limit=1000&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Inspect Slowest Calls (Data Table)"
+      url: "@{VIZ_GRID_TABLE}{{ link }}&fields=agent_events.timestamp_time,agent_events.trace_id,agent_events.agent,{{ _view._name }}.usage_total_tokens,{{ _view._name }}.total_ms&sorts={{ _view._name }}.total_ms+desc&limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
   }
 
   measure: p50_llm_latency {
@@ -111,6 +134,16 @@ view: +v_llm_response {
     percentile: 50
     sql: ${total_ms} ;;
     description: "Median (P50) latency for LLM responses in milliseconds."
+    drill_fields: []
+    
+    link: {
+      label: "Latency vs Tokens (Scatter Plot)"
+      url: "@{VIZ_SCATTER_CHART}{{ link }}&fields=agent_events.trace_id,{{ _view._name }}.total_ms,{{ _view._name }}.usage_total_tokens&sorts={{ _view._name }}.total_ms+desc&limit=1000&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Inspect Slowest Calls (Data Table)"
+      url: "@{VIZ_GRID_TABLE}{{ link }}&fields=agent_events.timestamp_time,agent_events.trace_id,agent_events.agent,{{ _view._name }}.usage_total_tokens,{{ _view._name }}.total_ms&sorts={{ _view._name }}.total_ms+desc&limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
   }
 
   measure: p75_llm_latency {
@@ -119,6 +152,7 @@ view: +v_llm_response {
     percentile: 75
     sql: ${total_ms} ;;
     description: "75th percentile latency for LLM responses in milliseconds."
+    drill_fields: []
   }
 
   measure: p90_llm_latency {
@@ -127,6 +161,16 @@ view: +v_llm_response {
     percentile: 90
     sql: ${total_ms} ;;
     description: "90th percentile latency for LLM responses in milliseconds."
+    drill_fields: []
+    
+    link: {
+      label: "Latency vs Tokens (Scatter Plot)"
+      url: "@{VIZ_SCATTER_CHART}{{ link }}&fields=agent_events.trace_id,{{ _view._name }}.total_ms,{{ _view._name }}.usage_total_tokens&sorts={{ _view._name }}.total_ms+desc&limit=1000&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Inspect Slowest Calls (Data Table)"
+      url: "@{VIZ_GRID_TABLE}{{ link }}&fields=agent_events.timestamp_time,agent_events.trace_id,agent_events.agent,{{ _view._name }}.usage_total_tokens,{{ _view._name }}.total_ms&sorts={{ _view._name }}.total_ms+desc&limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
   }
   
   measure: p99_llm_latency {
@@ -135,6 +179,16 @@ view: +v_llm_response {
     percentile: 99
     sql: ${total_ms} ;;
     description: "99th percentile latency for LLM responses in milliseconds."
+    drill_fields: []
+    
+    link: {
+      label: "Latency vs Tokens (Scatter Plot)"
+      url: "@{VIZ_SCATTER_CHART}{{ link }}&fields=agent_events.trace_id,{{ _view._name }}.total_ms,{{ _view._name }}.usage_total_tokens&sorts={{ _view._name }}.total_ms+desc&limit=1000&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Inspect Slowest Calls (Data Table)"
+      url: "@{VIZ_GRID_TABLE}{{ link }}&fields=agent_events.timestamp_time,agent_events.trace_id,agent_events.agent,{{ _view._name }}.usage_total_tokens,{{ _view._name }}.total_ms&sorts={{ _view._name }}.total_ms+desc&limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
   }
 
   # --- POP MEASURES: TOTAL TOKENS ---

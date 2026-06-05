@@ -92,19 +92,41 @@ view: +agent_events {
 
   # --- BASE MEASURES ---
   
-  measure: total_events {
-    group_label: "Usage & Volume"
-    type: count
-    description: "The raw number of individual event records. Best used when split by Event Type."
-    drill_fields: [timestamp_time, agent, user_id, trace_id, event_type]
-  }
-  
   measure: total_invocations {
     group_label: "Usage & Volume"
     type: count_distinct
     sql: ${invocation_id} ;;
     description: "Total number of distinct turns or invocations within all sessions."
     drill_fields: [timestamp_time, agent, user_id, session_id, trace_id, event_type]
+    
+    link: {
+      label: "Show Trend Over Time (Line Chart)"
+      url: "@{VIZ_LINE_CHART}{{ link }}&fields=agent_events.timestamp_date,{{ _view._name }}.total_invocations&fill_fields=agent_events.timestamp_date&sorts=agent_events.timestamp_date+desc&limit=500&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Show Agent Distribution (Donut Chart)"
+      url: "@{VIZ_DONUT_CHART}{{ link }}&fields={{ _view._name }}.total_invocations,agent_events.agent&sorts={{ _view._name }}.total_invocations+desc&limit=10&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+  }
+
+  measure: total_events {
+    group_label: "Usage & Volume"
+    type: count
+    description: "The raw number of individual event records. Best used when split by Event Type."
+    drill_fields: [timestamp_time, agent, user_id, trace_id, event_type]
+    
+    link: {
+      label: "Which Agents caused this? (Column Chart)"
+      url: "@{VIZ_COLUMN_CHART}{{ link }}&fields={{ _view._name }}.total_events,agent_events.agent&sorts={{ _view._name }}.total_events+desc&limit=10&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Which Users caused this? (Bar Chart)"
+      url: "@{VIZ_BAR_CHART_GREEN}{{ link }}&fields={{ _view._name }}.total_events,agent_events.user_id&sorts={{ _view._name }}.total_events+desc&limit=10&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "What was the Status? (Donut Chart)"
+      url: "@{VIZ_DONUT_CHART}{{ link }}&fields={{ _view._name }}.total_events,agent_events.status&sorts={{ _view._name }}.total_events+desc&limit=10&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
   }
 
   measure: total_traces {
@@ -133,7 +155,24 @@ view: +agent_events {
     type: count_distinct
     sql: ${session_id} ;;
     description: "Total number of unique interaction sessions."
-    drill_fields: [timestamp_time, agent, user_id, session_id, total_invocations]
+    drill_fields: []
+    
+    link: {
+      label: "Single User Activity Trend (Line Chart)"
+      url: "@{VIZ_LINE_CHART}{{ link }}&fields=agent_events.timestamp_date,{{ _view._name }}.total_sessions&fill_fields=agent_events.timestamp_date&sorts=agent_events.timestamp_date+asc&limit=500&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Session Complexity (Scatter Plot)"
+      url: "@{VIZ_SCATTER_CHART_SESSION}{{ link }}&fields=agent_events.session_id,session_facts.session_duration_ms,agent_events.total_invocations&sorts=session_facts.session_duration_ms+desc&limit=1000&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Which Users drove this? (Column Chart)"
+      url: "@{VIZ_COLUMN_CHART}{{ link }}&fields={{ _view._name }}.total_sessions,agent_events.user_id&sorts={{ _view._name }}.total_sessions+desc&limit=10&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Inspect Raw Sessions (Data Table)"
+      url: "@{VIZ_GRID_TABLE}{{ link }}&fields=agent_events.session_id,agent_events.user_id,session_facts.session_start_time,session_facts.session_duration_ms,agent_events.total_invocations&sorts=session_facts.session_duration_ms+desc&limit=100&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
   }
 
   measure: total_users {
@@ -141,7 +180,16 @@ view: +agent_events {
     type: count_distinct
     sql: ${user_id} ;;
     description: "Total number of unique users interacting with the agents."
-    drill_fields: [user_id, total_sessions, total_invocations]
+    drill_fields: []
+    
+    link: {
+      label: "The User Roster (Data Table)"
+      url: "@{VIZ_GRID_TABLE}{{ link }}&fields=agent_events.user_id,agent_events.total_sessions,agent_events.total_invocations,v_llm_response.total_tokens_consumed&sorts=agent_events.total_sessions+desc&limit=50&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "User Agent Preferences (Donut Chart)"
+      url: "@{VIZ_DONUT_CHART}{{ link }}&fields=agent_events.agent,{{ _view._name }}.total_users&sorts={{ _view._name }}.total_users+desc&limit=10&column_limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
   }
 
   # --- POP MEASURES: INVOCATIONS ---
@@ -192,7 +240,7 @@ view: +agent_events {
     group_label: "PoP: Total Traces"
     type: number
     value_format_name: percent_2
-    sql: SAFE_DIVIDE(${pop_total_traces_current} - ${pop_total_traces_current}, ${pop_total_traces_previous}) ;;
+    sql: SAFE_DIVIDE(${pop_total_traces_current} - ${pop_total_traces_previous}, ${pop_total_traces_previous}) ;;
     description: "The percentage change in traces between the current and previous period."
   }
 

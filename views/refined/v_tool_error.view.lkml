@@ -23,7 +23,8 @@ view: +v_tool_error {
 
   dimension: tool_args {
     group_label: "Tool Info"
-    description: "The JSON arguments that were passed to the tool when it failed. Useful for debugging."
+    type: string
+    sql: TO_JSON_STRING(${TABLE}.tool_args) ;;
   }
 
   dimension: total_ms {
@@ -37,7 +38,20 @@ view: +v_tool_error {
     group_label: "Performance & Reliability"
     type: count
     description: "Total number of tool calls that resulted in an error status."
-    drill_fields: [agent_events.timestamp_time, agent_events.agent, agent_events.user_id, agent_events.trace_id, tool_name, tool_args, total_ms]
+    drill_fields: []
+
+    link: {
+      label: "The Root Cause Inspector (Data Table)"
+      url: "@{VIZ_GRID_TABLE}{{ link }}&fields=agent_events.timestamp_time,agent_events.trace_id,{{ _view._name }}.tool_name,agent_events.agent,{{ _view._name }}.tool_args,agent_events.error_message&sorts=agent_events.timestamp_time+desc&limit=50&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Error Distribution by Tool (Donut Chart)"
+      url: "@{VIZ_DONUT_CHART}{{ link }}&fields={{ _view._name }}.tool_name,{{ _view._name }}.total_tool_errors&sorts={{ _view._name }}.total_tool_errors+desc&limit=10&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
+    link: {
+      label: "Error Trend Breakdown (Area Chart)"
+      url: "@{VIZ_STACKED_AREA}{{ link }}&fields=agent_events.timestamp_date,agent_events.agent,{{ _view._name }}.total_tool_errors&pivots=agent_events.agent&sorts=agent_events.timestamp_date+desc&limit=500&column_limit=10&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis"
+    }
   }
 
   # --- POP MEASURES: TOOL ERRORS ---
