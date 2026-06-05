@@ -1,12 +1,12 @@
 project_name: "agent-analytics"
 
 constant: CONNECTION_NAME {
-  value: "default_bigquery_connection"
+  value: "bq-conection"
   export: override_optional
 }
 
 constant: PROJECT_ID {
-  value: "looker-marketplace-development"
+  value: "project-id"
   export: override_optional
 }
 
