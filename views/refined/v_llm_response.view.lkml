@@ -1,7 +1,7 @@
 include: "/views/raw/v_llm_response.view.lkml"
 
 view: +v_llm_response {
-  sql_table_name: `@{PROJECT_ID}.@{DATASET_NAME}.v_llm_response` ;;
+  sql_table_name: `@{PROJECT_ID}.@{DATASET_NAME}.@{VIEW_PREFIX}_llm_response` ;;
 
   dimension: pk {
     primary_key: yes

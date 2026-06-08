@@ -15,6 +15,17 @@ constant: DATASET_NAME {
   export: override_optional
 }
 
+constant: TABLE_NAME {
+  value: "agent_events"
+  export: override_optional
+}
+
+constant: VIEW_PREFIX {
+  value: "v"
+  export: override_optional
+}
+
+
 constant: VIZ_AREA_CHART {
   value: "{% assign vis_config = '{
     \"x_axis_gridlines\": false,

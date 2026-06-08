@@ -1,7 +1,7 @@
 include: "/views/raw/v_tool_completed.view.lkml"
 
 view: +v_tool_completed {
-  sql_table_name: `@{PROJECT_ID}.@{DATASET_NAME}.v_tool_completed` ;;
+  sql_table_name: `@{PROJECT_ID}.@{DATASET_NAME}.@{VIEW_PREFIX}_tool_completed` ;;
 
   dimension: pk {
     primary_key: yes

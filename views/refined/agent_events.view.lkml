@@ -1,7 +1,7 @@
 include: "/views/raw/agent_events.view.lkml"
 
 view: +agent_events {
-  sql_table_name: `@{PROJECT_ID}.@{DATASET_NAME}.agent_events` ;;
+  sql_table_name: `@{PROJECT_ID}.@{DATASET_NAME}.@{TABLE_NAME}` ;;
 
   dimension: pk {
     primary_key: yes
