@@ -623,7 +623,7 @@
     model: agent-analytics
     explore: agent_events
     type: looker_bar
-    fields: [agent_events.total_events, v_llm_response.agent]
+    fields: [agent_events.total_events, agent_events.agent]
     filters:
       agent_events.event_type: '"TOOL_COMPLETED"'
     sorts: [agent_events.total_events desc 0]

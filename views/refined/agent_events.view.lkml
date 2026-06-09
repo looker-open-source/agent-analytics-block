@@ -1,6 +1,4 @@
-include: "/views/raw/agent_events.view.lkml"
-
-view: +agent_events {
+view: agent_events {
   sql_table_name: `@{PROJECT_ID}.@{DATASET_NAME}.@{TABLE_NAME}` ;;
 
   dimension: pk {
@@ -35,59 +33,83 @@ view: +agent_events {
   dimension: session_id { 
     group_label: "IDs & Tracing"
     description: "A unique identifier for the entire conversation session. Used to group all events belonging to a single user interaction."
+    type: string
+    sql: ${TABLE}.session_id ;;
   }
   
   dimension: user_id { 
     group_label: "IDs & Tracing"
     description: "The identifier of the end-user participating in the session, if available."
+    type: string
+    sql: ${TABLE}.user_id ;;
   }
   
   dimension: trace_id { 
     group_label: "IDs & Tracing"
     description: "OpenTelemetry trace ID for distributed tracing across services."
+    type: string
+    sql: ${TABLE}.trace_id ;;
   }
   
   dimension: span_id { 
     group_label: "IDs & Tracing"
     description: "OpenTelemetry span ID for this specific operation."
+    type: string
+    sql: ${TABLE}.span_id ;;
   }
   
   dimension: parent_span_id { 
     group_label: "IDs & Tracing"
     description: "OpenTelemetry parent span ID to reconstruct the operation hierarchy."
+    type: string
+    sql: ${TABLE}.parent_span_id ;;
   }
   
   dimension: invocation_id { 
     group_label: "IDs & Tracing"
     description: "A unique identifier for a single turn or execution within a session."
+    type: string
+    sql: ${TABLE}.invocation_id ;;
   }
   
   dimension: event_type { 
     group_label: "Event Info"
     description: "The category of the event."
+    type: string
+    sql: ${TABLE}.event_type ;;
   }
   
   dimension: agent { 
     group_label: "Event Info"
     description: "The name of the agent that generated this event."
+    type: string
+    sql: ${TABLE}.agent ;;
   }
   
   dimension: status { 
     group_label: "Event Info"
     description: "The outcome of the event, typically 'OK' or 'ERROR'."
+    type: string
+    sql: ${TABLE}.status ;;
   }
   
   dimension: error_message { 
     group_label: "Event Info"
     description: "Detailed error message if the status is 'ERROR'."
+    type: string
+    sql: ${TABLE}.error_message ;;
   }
   
   dimension_group: timestamp {
     description: "The UTC timestamp when the event occurred."
+    type: time
+    sql: ${TABLE}.timestamp ;;
   }
   
   dimension: is_truncated {
     description: "Boolean flag indicating if the 'content' field was truncated."
+    type: yesno
+    sql: ${TABLE}.is_truncated ;;
   }
 
   # --- BASE MEASURES ---

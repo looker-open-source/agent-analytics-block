@@ -22,10 +22,6 @@
     "TABLE_NAME": {
       "label": "Base Table Name",
       "description": "The name of the base agent events table configured in the ADK (default: agent_events)."
-    },
-    "VIEW_PREFIX": {
-      "label": "View Prefix",
-      "description": "The prefix used by the ADK plugin for auto-generated views (default: v)."
     }
   },
   "models": [

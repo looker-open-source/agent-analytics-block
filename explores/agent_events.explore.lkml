@@ -12,19 +12,19 @@ explore: agent_events {
 
   join: v_llm_response {
     type: left_outer
-    sql_on: ${agent_events.invocation_id} = ${v_llm_response.invocation_id} ;;
-    relationship: many_to_many
+    sql_on: ${agent_events.trace_id} = ${v_llm_response.trace_id} AND ${agent_events.span_id} = ${v_llm_response.span_id} AND ${agent_events.event_type} = ${v_llm_response.event_type} ;;
+    relationship: one_to_one
   }
 
   join: v_tool_completed {
     type: left_outer
-    sql_on: ${agent_events.invocation_id} = ${v_tool_completed.invocation_id} ;;
-    relationship: many_to_many
+    sql_on: ${agent_events.trace_id} = ${v_tool_completed.trace_id} AND ${agent_events.span_id} = ${v_tool_completed.span_id} AND ${agent_events.event_type} = ${v_tool_completed.event_type} ;;
+    relationship: one_to_one
   }
 
   join: v_tool_error {
     type: left_outer
-    sql_on: ${agent_events.invocation_id} = ${v_tool_error.invocation_id} ;;
-    relationship: many_to_many
+    sql_on: ${agent_events.trace_id} = ${v_tool_error.trace_id} AND ${agent_events.span_id} = ${v_tool_error.span_id} AND ${agent_events.event_type} = ${v_tool_error.event_type} ;;
+    relationship: one_to_one
   }
 }
