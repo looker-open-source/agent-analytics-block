@@ -1,20 +1,21 @@
 project_name: "agent-analytics"
 
 constant: CONNECTION_NAME {
-  value: "bq-conection"
+  value: "default_bigquery_connection"
   export: override_optional
 }
 
 constant: PROJECT_ID {
-  value: "project-id"
+  # value: "test-project-0728-467323"
+  value: "looker-marketplace-development"
   export: override_optional
 }
 
 constant: DATASET_NAME {
+  # value: "bqaa_looker_demo"
   value: "agent_analytic"
   export: override_optional
 }
-
 constant: TABLE_NAME {
   value: "agent_events"
   export: override_optional
