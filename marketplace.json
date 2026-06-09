@@ -1,0 +1,33 @@
+{
+  "label": "BigQuery Agent Analytics",
+  "category_label": "Models",
+  "branding": {
+    "image_uri": "https://static-a.cdn.looker.app/marketplace/block-icons/agent-analytics.png",
+    "tagline": "Monitor, debug, and optimize generative AI agents with deep insights into interactions, tool usage, LLM performance, and cost footprints."
+  },
+  "constants": {
+    "CONNECTION_NAME": {
+      "label": "Looker Connection Name",
+      "value_constraint": "connection",
+      "description": "The name of the Looker database connection configured to access the BigQuery dataset containing your agent data."
+    },
+    "PROJECT_ID": {
+      "label": "Google Cloud Project ID",
+      "description": "The Google Cloud Project ID where your BigQuery dataset resides."
+    },
+    "DATASET_NAME": {
+      "label": "BigQuery Dataset Name",
+      "description": "The name of the BigQuery dataset where your agent_events table and ADK views reside (e.g., 'agent_analytic')."
+    },
+    "TABLE_NAME": {
+      "label": "Base Table Name",
+      "description": "The name of the base agent events table configured in the ADK (default: agent_events)."
+    }
+  },
+  "models": [
+    {
+      "name": "agent-analytics",
+      "connection_constant": "CONNECTION_NAME"
+    }
+  ]
+}
