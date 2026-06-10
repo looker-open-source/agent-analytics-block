@@ -11,7 +11,7 @@ constant: PROJECT_ID {
 }
 
 constant: DATASET_NAME {
-  value: "agent_analytic"
+  value: "agent_analytics"
   export: override_optional
 }
 

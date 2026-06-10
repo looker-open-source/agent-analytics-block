@@ -1,16 +1,16 @@
 ---
-- dashboard: agent_analytics_v2
-  title: Agent Analytics
+- dashboard: agent_analytics_usage
+  title: Agent Analytics - Usage
   preferred_viewer: dashboards-next
   description: ''
   layout: newspaper
   tabs:
   - name: Token Consumption
     label: Token Consumption
-  - name: Agent Engagement
-    label: Agent Engagement
-  - name: Tool Performance
-    label: Tool Performance
+  - name: Agent & Sessions
+    label: Agent & Sessions
+  - name: Tool Usage
+    label: Tool Usage
   - name: LLM Interactions
     label: LLM Interactions
   - name: User Analytics
@@ -338,11 +338,11 @@
       Span ID: agent_events.span_id
       Trace ID: agent_events.trace_id
       Date: agent_events.timestamp_date
-    row: 5
+    row: 7
     col: 0
     width: 12
     height: 8
-    tab_name: Agent Engagement
+    tab_name: Agent & Sessions
   - title: Total Traces
     name: Total Traces
     model: agent-analytics
@@ -419,11 +419,11 @@
       Trace ID: agent_events.trace_id
       User ID: agent_events.user_id
       Date: agent_events.pop_date_filter
-    row: 0
+    row: 2
     col: 0
     width: 9
     height: 5
-    tab_name: Agent Engagement
+    tab_name: Agent & Sessions
   - title: Traces split by Agent
     name: Traces split by Agent
     model: agent-analytics
@@ -483,11 +483,11 @@
       Agent: agent_events.agent
       Span ID: agent_events.span_id
       Date: agent_events.timestamp_date
-    row: 5
+    row: 7
     col: 12
     width: 12
     height: 8
-    tab_name: Agent Engagement
+    tab_name: Agent & Sessions
   - title: Total Traces Generation Over the Time
     name: Total Traces Generation Over the Time
     model: agent-analytics
@@ -555,11 +555,242 @@
       Trace ID: agent_events.trace_id
       User ID: agent_events.user_id
       Date: agent_events.timestamp_date
-    row: 0
+    row: 2
     col: 9
     width: 15
     height: 5
-    tab_name: Agent Engagement
+    tab_name: Agent & Sessions
+  - title: Total Sessions
+    name: Total Sessions
+    model: agent-analytics
+    explore: agent_events
+    type: single_value
+    fields: [agent_events.pop_total_sessions_current, agent_events.pop_total_sessions_change]
+    filters:
+      agent_events.pop_date_filter: 7 days
+      agent_events.agent: ''
+      agent_events.span_id: ''
+      agent_events.trace_id: ''
+      agent_events.user_id: ''
+    limit: 500
+    column_limit: 50
+    custom_color_enabled: true
+    show_single_value_title: true
+    show_comparison: true
+    comparison_type: change
+    comparison_reverse_colors: false
+    show_comparison_label: true
+    enable_conditional_formatting: false
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    smart_single_value_size: false
+    comparison_label: vs Last Period
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    defaults_version: 1
+    listen:
+      Date: agent_events.timestamp_date
+      Agent: agent_events.agent
+      Span ID: agent_events.span_id
+      Trace ID: agent_events.trace_id
+      User ID: agent_events.user_id
+    row: 17
+    col: 0
+    width: 8
+    height: 7
+    tab_name: Agent & Sessions
+  - title: Number of Sessions Trend
+    name: Number of Sessions Trend
+    model: agent-analytics
+    explore: agent_events
+    type: looker_area
+    fields: [agent_events.total_sessions, agent_events.timestamp_date]
+    fill_fields: [agent_events.timestamp_date]
+    filters:
+      agent_events.agent: ''
+      agent_events.span_id: ''
+      agent_events.trace_id: ''
+      agent_events.user_id: ''
+      agent_events.timestamp_date: 7 days
+    sorts: [agent_events.timestamp_date desc]
+    limit: 500
+    column_limit: 50
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: circle
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    show_null_points: false
+    interpolation: linear
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    x_axis_zoom: true
+    y_axis_zoom: true
+    series_colors:
+      agent_events.total_sessions: "#e52592"
+    custom_color_enabled: true
+    show_single_value_title: true
+    smart_single_value_size: false
+    show_comparison: true
+    comparison_type: change
+    comparison_reverse_colors: false
+    show_comparison_label: true
+    comparison_label: vs Last Period
+    enable_conditional_formatting: false
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    ordering: none
+    show_null_labels: false
+    defaults_version: 1
+    hidden_pivots: {}
+    listen:
+      Date: agent_events.timestamp_date
+      Agent: agent_events.agent
+      Span ID: agent_events.span_id
+      Trace ID: agent_events.trace_id
+      User ID: agent_events.user_id
+    row: 17
+    col: 8
+    width: 16
+    height: 7
+    tab_name: Agent & Sessions
+  - title: Top 5 Agents Split by Session Count
+    name: Top 5 Agents Split by Session Count
+    model: agent-analytics
+    explore: agent_events
+    type: looker_bar
+    fields: [agent_events.total_sessions, agent_events.agent]
+    filters:
+      agent_events.agent: ''
+      agent_events.span_id: ''
+      agent_events.trace_id: ''
+      agent_events.user_id: ''
+      agent_events.timestamp_date: 7 days
+    sorts: [agent_events.total_sessions desc 0]
+    limit: 5
+    column_limit: 50
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: circle
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    x_axis_zoom: true
+    y_axis_zoom: true
+    series_colors:
+      agent_events.total_sessions: "#e8710a"
+    show_null_points: true
+    interpolation: linear
+    custom_color_enabled: true
+    show_single_value_title: true
+    smart_single_value_size: false
+    show_comparison: true
+    comparison_type: change
+    comparison_reverse_colors: false
+    show_comparison_label: true
+    comparison_label: vs Last Period
+    enable_conditional_formatting: false
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    defaults_version: 1
+    hidden_pivots: {}
+    listen:
+      Date: agent_events.timestamp_date
+      Agent: agent_events.agent
+      Span ID: agent_events.span_id
+      Trace ID: agent_events.trace_id
+      User ID: agent_events.user_id
+    row: 24
+    col: 1
+    width: 22
+    height: 9
+    tab_name: Agent & Sessions
+  - name: ''
+    type: text
+    title_text: ''
+    subtitle_text: ''
+    body_text: '[{"type":"h1","children":[{"text":"Agent"}],"align":"center"}]'
+    rich_content_json: '{"format":"slate"}'
+    row: 0
+    col: 0
+    width: 24
+    height: 2
+    tab_name: Agent & Sessions
+  - name: " (Copy)"
+    type: text
+    title_text: " (Copy)"
+    subtitle_text: ''
+    body_text: '[{"type":"h1","children":[{"text":"Sessions"}],"align":"center"}]'
+    rich_content_json: '{"format":"slate"}'
+    row: 15
+    col: 0
+    width: 24
+    height: 2
+    tab_name: Agent & Sessions
   - title: Tool Invocations
     name: Tool Invocations
     model: agent-analytics
@@ -617,7 +848,7 @@
     col: 0
     width: 12
     height: 7
-    tab_name: Tool Performance
+    tab_name: Tool Usage
   - title: Events By Agent
     name: Events By Agent
     model: agent-analytics
@@ -677,7 +908,7 @@
     col: 12
     width: 12
     height: 7
-    tab_name: Tool Performance
+    tab_name: Tool Usage
   - title: Tool Calls Over Time
     name: Tool Calls Over Time
     model: agent-analytics
@@ -743,7 +974,7 @@
     col: 0
     width: 24
     height: 6
-    tab_name: Tool Performance
+    tab_name: Tool Usage
   - title: Total Calls
     name: Total Calls
     model: agent-analytics
@@ -1037,7 +1268,7 @@
       Trace ID: agent_events.trace_id
       User ID: agent_events.user_id
       Date: agent_events.pop_date_filter
-    row: 1
+    row: 2
     col: 0
     width: 8
     height: 7
@@ -1114,7 +1345,7 @@
       Trace ID: agent_events.trace_id
       User ID: agent_events.user_id
       Date: agent_events.timestamp_date
-    row: 1
+    row: 2
     col: 8
     width: 16
     height: 7
@@ -1188,7 +1419,7 @@
       Span ID: agent_events.span_id
       Trace ID: agent_events.trace_id
       User ID: agent_events.user_id
-    row: 8
+    row: 9
     col: 0
     width: 12
     height: 7
@@ -1262,25 +1493,25 @@
       Span ID: agent_events.span_id
       Trace ID: agent_events.trace_id
       User ID: agent_events.user_id
-    row: 8
+    row: 9
     col: 12
     width: 12
     height: 7
     tab_name: User Analytics
   - type: button
     name: button_854
-    rich_content_json: '{"text":"Performance Report","description":"","newTab":false,"alignment":"right","size":"medium","style":"FILLED","color":"#E52592","href":"/dashboards/agent-analytics::performance_report"}'
+    rich_content_json: '{"text":"Performance Report","description":"","newTab":false,"alignment":"center","size":"small","style":"FILLED","color":"#E52592","href":"/dashboards/agent-analytics::agent_analytics_performance"}'
     row: 0
-    col: 21
-    width: 3
+    col: 19
+    width: 5
     height: 1
     tab_name: User Analytics
-  - name: ''
+  - name: " (2)"
     type: text
     title_text: ''
     subtitle_text: ''
     body_text: ''
-    row: 0
+    row: 1
     col: 0
     width: 21
     height: 1
