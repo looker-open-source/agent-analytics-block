@@ -6,7 +6,7 @@ This Looker Block provides a turn-key, highly performant analytics solution for 
 ## Architecture & Semantic Layer
 This block utilizes a **Native Derived Table Architecture** to provide a seamless installation experience.
 
-Looker handles the complex data parsing natively. The LookML contains highly optimized Native Derived Tables (e.g., `v_llm_response`, `v_tool_error`) that execute strict `JSON_VALUE` and `JSON_QUERY` extractions against the raw BigQuery `agent_events` table on the fly. 
+Looker handles the complex data parsing natively. The LookML contains highly optimized Native Derived Tables (e.g., `v_llm_response`, `v_tool_error`) that execute strict `JSON_VALUE` and `JSON_QUERY` extractions against the raw BigQuery `agent_events` table on the fly.
 
 These derived tables are joined back to the primary `agent_events` Explore. To ensure mathematical accuracy, the semantic layer enforces strict 1:1 `LEFT JOIN` operations using exact OpenTelemetry composite keys (`trace_id` AND `span_id` AND `event_type`).
 
@@ -21,23 +21,26 @@ This block moves beyond standard Looker data tables by implementing a robust, co
 *   **Dynamic `link` Parameters:** Core measures (like `total_events` or `total_tool_errors`) utilize Looker's `link` parameter combined with the expanded Share URL pattern.
 *   **Contextual Insight:** Clicking a data point on a dashboard will automatically inherit the dashboard filters and open a beautifully formatted visual popup (e.g., clicking an Agent spike opens a Bar Chart showing which exact tools that Agent was using on that specific day).
 
-## Dashboards (v2)
-This block includes two comprehensive reporting suites, containing a total of 8 analytical dashboards designed to monitor every aspect of your agent's lifecycle:
+## Dashboards
+This block includes two comprehensive reporting suites containing a suite of interconnected dashboards to monitor every aspect of your agent's lifecycle:
 
-### Report 1: Agent Analytics
-1.  **Token Consumption:** Tracks the aggregate volume of prompt and completion tokens burned over time, and highlights the specific users and agents driving the highest costs.
-2.  **Agent Engagement:** Monitors the total volume of unique, end-to-end user journeys (traces) to provide a clear view of overall system traffic and power-user activity.
-3.  **Tool Performance:** Analyzes backend function calling by tracking the daily execution volume of specific tools, identifying the most frequently used tools, and mapping tool usage to specific agents.
+### Agent Analytics - Usage
+*This suite focuses on business metrics, user engagement, and cost tracking.*
+
+1.  **Token Consumption:** Tracks the aggregate volume of prompt and completion tokens burned over time, highlighting the specific users and agents driving the highest costs.
+2.  **Agent & Sessions:** Monitors the total volume of end-to-end user journeys and active conversational sessions, providing a clear view of overall system traffic and session complexity.
+3.  **Tool Usage:** Analyzes backend function calling by tracking the daily execution volume of specific tools, identifying the most frequently used functions.
 4.  **LLM Interactions:** Provides deep visibility into the absolute number of requests sent to the underlying LLM models, hunting for outliers via granular scatter plots.
-5.  **User Analytics:** Measures platform adoption and retention by tracking active unique users over time, determining user agent preferences, and ranking power-users by session volume.
+5.  **User Analytics:** Measures platform adoption and retention by tracking active unique users over time, determining user agent preferences, and ranking power-users.
 
-### Report 2: Performance Report
-1.  **System Performance & Latency:** Visualizes P50, P75, P90, and P99 latency distributions for both LLM responses and Tool executions, tracking historical performance to identify backend degradation or API throttling.
-2.  **Reliability & Errors:** Tracks the daily volume of tool failures, highlights the most unstable agents and backend tools, and provides a "Root Cause Inspector" drill path for immediate debugging of raw error payloads.
-3.  **Session Deep Dive:** Analyzes macro engagement trends by tracking overall session volume and ranks the top agents hosting the highest number of active user conversations.
+### Agent Analytics - Performance
+*This highly technical suite focuses purely on engineering metrics, speed, and backend reliability.*
+
+1.  **Latency:** Visualizes P50, P75, P90, and P99 latency distributions for both LLM responses and Tool executions, tracking historical performance to identify backend degradation or API throttling.
+2.  **Errors:** Tracks the daily volume of tool failures, highlights the most unstable agents and backend tools, and provides a "Root Cause Inspector" drill path for immediate debugging of raw JSON error payloads.
 
 ## Prerequisites
-1.  **BigQuery Configuration:** Data must be flowing into BigQuery via the BigQuery Agent Analytics ADK plugin. 
+1.  **BigQuery Configuration:** Data must be flowing into BigQuery via the BigQuery Agent Analytics ADK plugin.
 2.  **Looker Connection:** A Looker database connection configured to access the BigQuery dataset containing your `agent_events` table.
 
 ## Configuration & Installation
