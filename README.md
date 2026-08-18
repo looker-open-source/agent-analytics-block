@@ -1,6 +1,6 @@
 # Google Cloud BigQuery Agent Analytics - Looker Block
 
-This is not an officially supported Google product. This project is not eligible for the [Google Open Source Software Vulnerability Rewards Program](https://bughunters.google.com/open-source-security).
+**This is not an officially supported Google product.**
 
 ## Overview
 This Looker Block provides a turn-key, highly performant analytics solution for monitoring, debugging, and optimizing generative AI agents. Designed to work seamlessly with the [BigQuery Agent Analytics solution](https://docs.cloud.google.com/bigquery/docs/bigquery-agent-analytics), this block surfaces deep insights into agent interactions, tool usage, LLM performance, and cost footprints.
