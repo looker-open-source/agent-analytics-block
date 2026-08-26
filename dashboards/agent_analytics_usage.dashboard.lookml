@@ -614,7 +614,8 @@
     totals_color: "#808080"
     defaults_version: 1
     listen:
-      Date: agent_events.timestamp_date
+      #Date: agent_events.timestamp_date  ## original - commented out
+      Date: agent_events.pop_date_filter  ## updated
       Agent: agent_events.agent
       Span ID: agent_events.span_id
       Trace ID: agent_events.trace_id
